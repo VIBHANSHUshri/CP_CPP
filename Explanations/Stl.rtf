@@ -143,6 +143,24 @@ or st.erase(st.find(5));
 st.clear() -> O(n * logn) -> set multiset
 O(n * O(1)) -> unordered_set
 
-   
+
+****************************************************************Map*******************************************************
+{key,value}
+-> unique values of key
+-> sorted order of key
+map<int,int> mp;
+
+mp.insert({1,2})    // key = 1  , value = 2
+or 
+mp[1] = 2; 
+
+mp.erase(1);
+auto it = mp.find(1);
+
+int first = it->first;
+or int first = *it.first;
 
 
+// there is unordered_map
+
+mulimap<int,int>mp;
