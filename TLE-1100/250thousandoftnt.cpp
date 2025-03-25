@@ -2,60 +2,51 @@
 using namespace std;
 
 #define ll long long
-#define vi vector<int>
-#define pii pair<int, int>
+#define vi vector<ll>
+#define pii pair<ll, ll>
 #define mod 1000000007
-#define INF 1e9
+#define INF 1e18
 
 // Loop Macros
-#define fo(i, a, b) for (int i = a; i < b; i++)
-#define rfo(i, a, b) for (int i = a; i >= b; i--)
+#define fo(i, a, b) for (ll i = a; i < b; i++)
+#define rfo(i, a, b) for (ll i = a; i >= b; i--)
 
 // Debugging Macro
 #define debug(x) cerr << #x << " = " << (x) << '\n';
 
 void solve() {
- 
-      int n;
-      cin >> n;
-      vector<int>a(n);
-
-
-      for(int i = 0 ; i < n ; i++)
-      {
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
+    
+    for (ll i = 0; i < n; i++) {
         cin >> a[i];
-      }
+    }
 
-      vector<int>presum;
-      presum.push_back(0);
-      
-      int sum = 0;
-      for(int i = 0 ; i < n ; i++)
-      {
-        sum += a[i];
-        presum.push_back(sum);
-      }
-       int ans = 0;
-      for(int i = 1; i <= n ; i++)
-      {
-       
-          if(n%i == 0)
-          {
-            vector<int>v;
-            for(int j = i ; j <= n ; j+=i)
-            {
-               sum = presum[j] - presum[j-i];
-               v.push_back(sum);
+    // Prefix sum array
+    vector<ll> presum(n + 1, 0);
+    for (ll i = 1; i <= n; i++) {
+        presum[i] = presum[i - 1] + a[i - 1];
+    }
+
+    ll ans = 0;
+
+    // Iterate through divisors of n
+    for (ll i = 1; i <= n; i++) {
+        if (n % i == 0) {
+            ll max_sum = LLONG_MIN, min_sum = LLONG_MAX;
+
+            for (ll j = i; j <= n; j += i) {
+                ll sub_sum = presum[j] - presum[j - i];
+                max_sum = max(max_sum, sub_sum);
+                min_sum = min(min_sum, sub_sum);
             }
-            int max_sum = *max_element(v.begin(), v.end());
-            int min_sum = *min_element(v.begin(), v.end());
-            ans = max(ans,max_sum-min_sum);
-          }
-      }
 
-      cout << ans << endl;
-      
+            ans = max(ans, max_sum - min_sum);
+        }
+    }
 
+    cout << ans << endl;
 }
 
 int main() {
